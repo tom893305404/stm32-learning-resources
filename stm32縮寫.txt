@@ -1,0 +1,47 @@
+ADK 		AMBA设计套件 		AMBA Design Kit
+AHB 		先进高性能总线		Advanced High performance Bus
+AHB-AP AHB访问端口			AHB access port
+AMBA 先进单片机总线架构			Advanced microchip Bus Architecture
+APB 先进外设总线			Advanced Peripheral Bus
+ARM ARM ARM架构参考手册			ARM Architecture Reference Manual
+ASIC 行业领域专用集成电路		Application Specific Integrated Circuit
+ATB 先进跟踪总线			Advanced Track Bus
+BE8 字节不变式大端模式			Byte Invariant Big Endian mode
+CPI 每条指令的周期数			Cycle Per Instruction
+CPU 中央处理单元			Center Process Unit
+DAP 调试访问端口			Debug Access Port
+DSP 数字信号处理器／数字信号处理	Digital Signal Process
+DWT 数据观察点及跟踪			Data Watch and Track
+ETM 嵌入式跟踪宏单元			embedded trace macrocell
+FPB 闪存地址重载及断点			Falsh Adress
+FSR Fault状态寄存器			Flash Patch and Breakpoint Unit
+HTM CoreSight AHB跟踪宏单元		HTM，AHB 跟蹤宏單元  HTM 可顯示無法使用 ETM 從內核跟蹤推斷的總線信息：
+ICE 在线仿真器
+IDE 集成开发环境
+IRQ 中断请求（通常是指外部中断的请求）	Interrupt Routine Quest
+ISA 指令系统架构			Instruction System Architecture
+ISR 中断服务例程			Interrupt service routine
+ITM 仪器化跟踪宏单元			CoreSight ITM 塊是一個軟件應用程序驅動的跟蹤源。支持的代碼將生成軟件測量跟蹤 (SWIT)。此外，該塊還提供粗略的時間戳功能。
+JTAG 连结点测试行动组（一个关于测试和调试接口的标准）
+JTAG-DP JTAG调试端口
+LR 连接寄存器				Link Register
+LSB 最低有效位
+LSU 加载/存储单元
+MCU 微控制器单元（俗称单片机）
+MMU 存储器管理单元			memory management unit
+MPU 存储器保护单元
+MSB 最高有效位				memory protection unit
+MSP 主堆栈指针				Main Stack Pointer
+NMI 不可屏蔽中断			Non-maskable interrupt
+NVIC 嵌套向量中断控制器			Nested vectored interrupt controller
+OS 操作系统				Operation System
+PC 程序计数器				Program conuter
+PSP 进程堆栈指针			Processor Stack Pointer
+PPB 私有外设总线			Private Peripheral Bus
+
+
+
+Ref:https://www.twblogs.net/a/5eef13df418820fe02fa0fa8
+
+
+

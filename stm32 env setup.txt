@@ -1,0 +1,21 @@
+1.compiler install (build setup)
+sudo apt install gcc-arm-none-eabi
+sudo apt install gdb-arm-none-eabi
+sudo apt install binutil-arm-none-eabi
+
+2.install cmake and libusb
+
+sudo apt update
+sudo apt install cmake
+sudo apt install libusb-1.0-0 libusb-1.0-00dev libusn-1.0-0-dbg
+
+3.install stlink (driver)
+git clone https://github.com/texane/stlink.git
+
+4.install stlink
+cd stlink
+make
+make install
+
+不外乎 gcc gdb binutil下載
+剩下都是跟外設連接的驅動程式

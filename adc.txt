@@ -1,0 +1,65 @@
+stm32 有12bit ADC轉換電路
+有18路的多工器MUX支援16個外部設備、2個內部設備
+可以在 Single,Continuous,Scan,discontinue
+轉換結果將被左對齊或右對齊儲存於16bit寄存器中
+
+類比看門狗計時器功能，允許檢測輸入電壓是否超過用戶定義的高或低閥值。
+ADC 的輸入時鐘源來自於PCLK2(過APB2) 再經過一個分頻器(ADC prescaler)，並且它不應該超過14MHZ
+
+stm32 ADC特徵:
+◆12 bit分辨率
+◆中斷在 轉換結束 、 注入轉換結束(Injected convertion) 、 類比看門狗事件 產生時觸發
+◆單次或連續轉換模式
+◆提供自動轉換通道'0'到通道'N' 的掃描模式。
+◆自動校正(Self-calibration)
+◆掃描結果對齊保持一致性
+◆逐通道(channel by channel)可調整的取樣時間
+◆常規和注入轉換的外部觸發選項
+◆不連續模式(Discontinuous mode)
+◆雙工(在有兩個或以上adc的設備上)
+
+◆ADC轉換時間
+ADC conversion time:
+–
+ STM32F103xx performance line devices: 1 μs at 56 MHz (1.17 μs at 72 MHz)
+–
+ STM32F101xx access line devices: 1 μs at 28 MHz (1.55 μs at 36 MHz)
+–
+ STM32F102xx USB access line devices: 1.2 μs at 48 MHz
+–
+ STM32F105xx and STM32F107xx devices: 1 μs at 56 MHz (1.17 μs at 72 MHz)
+
+◆ADC電壓要求2.4V到3.6V
+◆ADC輸入電壓(Vin)範圍 Vref- < Vin < Vref+
+◆在常規轉換模式時的DMA請求產生
+
+Single mode
+continue cinversion mode
+Discontinous mode
+Scan mode
+
+ADC的整個轉換時間= 取樣時間 + 12.5個週期(轉換時間)
+取樣最快1.5個週期 = 1.5+12.5 = 14週期 
+如果以最快adc 頻率14Mhz = 1us 最快1us轉換一次
+
+問題我們主時脈一般用72Mhz 分頻能得到最大adc頻率為 / 6 = 12Mhz
+ = 14/12 = 1.17us 每次
+
+ADC的校準Calibration:
+ADC每次 ADON 以後 都要進行校準，否則轉換結果可能不理想。
+範例: 
+	ADC1->CR2 |= ADC_CR2_ADON; //enable A/D converter ON/OFF //上電
+
+
+	ADC1->CR2 |= ADC_CR2_RSTCAL; //重整校準寄存器
+	while(ADC1->CR2 & ADC_CR2_RSTCAL);
+
+	ADC1->CR2 |= ADC_CR2_CAL; //開啟校準
+	while(ADC1->CR2 & ADC_CR2_CAL);
+兩個While 是為了確定重整與校準完成
+
+
+	/*
+	 * 注意: ADON 中原本為0時寫入1為喚醒，當原本其中為1時寫入1為開始轉換，
+	 * 當ADON以外其他位同時發生變化，則不觸發轉換，這是為了防止錯誤觸發。
+	 */

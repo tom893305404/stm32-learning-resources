@@ -1,0 +1,76 @@
+HAL(Hardware Abstraction Layer) 硬體抽象層:
+用於類比特定系統平台的細節使程式可以直接存取硬體的資源。
+將硬體方面的不同抽離作業系統的核心，核心模式的程式碼就不必因為硬體的不同而需要修改。
+因此硬體抽象層可加大軟體的移植性。
+PPP peripheral drivers 泛指所有的外部設備
+semihosting 半主機
+NVIC Nested vectoredinterrupt controller(巢狀中斷向量控制器)
+MSP(“MCU Support Package") or (MCU Specific Package)
+HAL(Hardware Abstraction Layer)
+SPL(Standard peripheral library)
+LL(low-layer APIs)
+CMSIS(Cortex MicroControllerSoftware Interface Standard)
+MDK(MDK Microcontroller Development Kit):Keil 的開發體系
+
+HAL 資料結構
+HAL 包含幾個資料結構
+1.Peripheral handle structures
+2.Initalization and configuration structures
+3.Sepcific process structutres
+
+
+
+stm32時鐘預設值為0x83 也就是只有HSI內部高頻開啟，8是校準的trim
+時鐘寄存器中的Bypass 是要不要使用內部的晶體驅動電路。
+如果用bypass 外部就要有配合震盪晶體的電路。
+
+
+************>>>>>>>>>>GPIO<<<<<<<<<<<<*******************
+
+STM32的 GPIO模式有以下幾種：
+  		GPIO_Mode_AIN ---------------------- 	 模擬輸入
+                GPIO_Mode_IN_FLOATING --------------	 輸入浮空
+                GPIO_Mode_IPD ---------------------- 	 輸入下拉
+               	GPIO_Mode_IPU  ---------------------- 	 輸入上拉
+                GPIO_Mode_Out_OD ---------------- 	 開漏輸出
+                GPIO_Mode_Out_PP ---------------- 	 推挽式輸出
+                GPIO_Mode_AF_OD ---------------- 	 開漏復用功能
+                GPIO_Mode_AF_PP -----------------	 推挽式復用功能
+
+
+當I/O埠配置為輸入時：
+● 輸出緩沖器被禁止
+● 施密特觸發輸入被激活
+● 根據輸入配置(上拉，下拉或浮動)的不同，弱上拉和下拉電阻被連接
+● 出現在I/O腳上的資料在每個APB2時鐘被采樣到輸入資料暫存器
+● 對輸入資料暫存器的讀訪問可得到I/O狀態
+
+
+當I/O埠被配置為復用功能時：
+● 在開漏或推挽式配置中，輸出緩沖器被打開
+● 內置外設的信號驅動輸出緩沖器(復用功能輸出)
+● 施密特觸發輸入被激活
+● 弱上拉和下拉電阻被禁止
+● 在每個APB2時鐘周期，出現在I/O腳上的資料被采樣到輸入資料暫存器
+● 開漏模式時，讀輸入資料暫存器時可得到I/O口狀態
+● 在推挽模式時，讀輸出資料暫存器時可得到最后一次寫的值
+
+
+GPIO復用功能總結：
+復用功能模式中，輸出使能，輸出速度可配置，可作業在開漏及推挽模式，但是輸出信號源于其它外設，輸出資料暫存器GPIOx_ODR無效；輸入可用，通過輸入資料暫存器可獲取I/O實際狀態，
+但一般直接用外設的暫存器來獲取該資料信號，用于復用功能時，可使用上拉、下拉或者浮空模式，同輸出模式，在這種情況下，初始化后引腳默認輸出低電平，上拉只起到小幅提高輸出電流能力，但不會影響引腳的默認狀態。
+
+當I/O埠被配置為模擬輸入配置時：(ADC or DAC)
+● 輸出緩沖器被禁止
+● 禁止施密特觸發輸入，實作了每個模擬I/O引腳上的零消耗，施密特觸發輸出值被強置為’0’
+● 弱上拉和下拉電阻被禁止
+● 讀取輸入資料暫存器時數值為’0’
+
+-------------------------------------------------------------------------------------------------------------------------
+gcc-arm-none-eabi
+之前介绍过我们在Linux系统下使用gcc工具链对程序进行编译，但是那样只能编译计算机系统程序，那么我们在嵌入式领域，以交互式开发的系统中要使用什么工具编译单片机的源代码呢？
+
+对于arm单片机，我们使用的就是gcc-arm-none-eabi工具链，其中gcc不必多说，GNU编译器套件（GNU Compiler Collection）的缩写，而none代表是编程程序运行在裸机上即没有安装操作系统的CPU上，arm也不用多说是该工具链的适用的CPU内核，而eabi，意为嵌入式应用二进制接口（Embedded Application Binary Interface）。由此大家可以自然地想到一定会存在，arm-eabi-gcc、arm-none-linux-gnueabi-gcc等软件。自然地他们也是用在各种不同环境中的。如arm-eabi-gcc就是编译在装有操作系统的arm硬件下，如Android手机等平台。
+
+
+

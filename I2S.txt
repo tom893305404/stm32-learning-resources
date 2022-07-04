@@ -1,0 +1,41 @@
+&I2S 為PCM的一個分支
+
+I2S特點:
+支援全雙工/半雙工
+2.支援主/從模式
+3.和PCM相比，I2S更適合立體聲系統。I2S的變體也支援多通道的分時復用，因此可以支援多聲道。
+
+I2S 的三個訊號:
+1.SCLK:一個數據對應一個SCK，freq = 聲道數 * 取樣頻率 * 取樣位數。
+2.WS: 1->左聲道 2->右聲道
+3.SDATA(SD): 用二的補數表示的聲音數據 I2S串行數據在傳輸的時候，由高位(MSB)到低位(LSB)依次進行傳送。
+4.一般還有一個MCLK，主時鐘要跟LRCLK(WS)成比例MCLK 對照datasheet 最好是SCLK2的 x256 x384 x512倍
+
+
+CJMCU-4344對應I2Stab:
+1.SDIN:SDATA(SD)
+2.SCLK: 一個數據對應一個SCK，freq = 聲道數 * 取樣頻率 * 取樣位數
+3.LRCLK:WS R or L Channel
+4.MCLK: 主時鐘要跟LRCLK(WS)成比例MCLK 對照datasheet 最好是SCLK2的 x256 x384 x512倍
+5.GND
+6.VCC
+================
+上面接腳就牽涉到這個module上面IC腳位
+SDIN:2的補數的聲音資料，(左右聲道都用這個(I2S的SDATA?
+DEM/SCLK:給外部去加重濾波器控制 or 外部串列時鐘輸入
+LRCK:Lift Right Clock - Determines which channed，好像就是I2S的WS
+MCLK:Master CLock ，給Delta-sigma 調變器和數位濾波器的時鐘源。
+VQ:Quiescent Voltage(Output):Filter connection for internal quiescent vlotage.內部靜態電壓的濾波器連接。
+FILT+:Positive Voltage Reference(Output):內部電壓參考點
+AOUTL:左聲道類比輸出。
+GND:接地
+VA:電源
+AOUTR:右聲道類比輸出。
+---------------------
+另SPI
+SPI的工作原理跟I2S超像:
+
+循環主從單晶片中的寄存器位，循環完就完成一次的傳輸。
+1.MOSI
+2.MISO
+3.CLK
